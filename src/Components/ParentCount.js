@@ -4,33 +4,27 @@ import ChildCount from './ChildCount'
  class ParentCount extends Component {
 
     constructor(props) {
-        super(props)
-    
-        this.state = {
-             count: 0
-        }
+        super(props);
+        this.componentRef = React.createRef();
     }
 
-    incrementCount = () => {
-        this.setState({
-            count: this.state.count + 1
-        })
-    } 
+    clickHandler = () => {
+        this.componentRef.current.incrementCount();
+    }
 
-    decrementCount = () => {
-        this.setState({
-            count: this.state.count - 1
-        })
-    } 
+    myCallback = (dataFromChild) => {
+        console.log(dataFromChild);
+    }
 
     render() {
-        return (
+        return(
             <div>
-                <p>Count = {this.state.count}</p>
-                <ChildCount inc={() => this.incrementCount()} dec={() => this.decrementCount()}/>
+                <ChildCount ref={this.componentRef}  callbackFromParent={this.myCallback} />
+                <button onClick={this.clickHandler}>Increment</button>
             </div>
-        )
+        );
     }
+    
 }
 
 export default ParentCount
